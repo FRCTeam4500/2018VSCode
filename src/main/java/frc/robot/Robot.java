@@ -10,8 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Robot_Group_PreConfigure;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.WheelModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+
+    public static WheelModule fl, fr, bl, br;
+    public static Swerve swerve;
+    
     public static OI oi;
 
     Command m_autonomousCommand;
@@ -31,6 +36,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        bl = new WheelModule(RobotMap.BLANGLEPORT, RobotMap.BLSPEEDPORT, "bl", false); 
+		br = new WheelModule(RobotMap.BRANGLEPORT, RobotMap.BRSPEEDPORT, "br", false);
+		fl = new WheelModule(RobotMap.FLANGLEPORT, RobotMap.FLSPEEDPORT, "fl", false); 
+		fr = new WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", false);
+		
+		swerve = new Swerve(fl, fr, bl, br);
+		
         oi = new OI();
     }
 
@@ -59,6 +71,8 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+
+        RobotMap.dashboardDisplay();
     }
 
     /**
@@ -93,6 +107,8 @@ public class Robot extends TimedRobot {
         // if (m_autonomousCommand != null) {
         // m_autonomousCommand.cancel();
         // }
+        Command preconfigure = new Robot_Group_PreConfigure();
+        preconfigure.start();
     }
 
     /**
@@ -101,6 +117,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
+        RobotMap.dashboardDisplay();
     }
 
     /**

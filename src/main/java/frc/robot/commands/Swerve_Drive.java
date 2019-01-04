@@ -10,9 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Swerve_GyroReset extends Command {
-    
-    public Swerve_GyroReset() {
+public class Swerve_Drive extends Command {
+    public Swerve_Drive() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.swerve);
     }
@@ -20,12 +19,12 @@ public class Swerve_GyroReset extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.swerve.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.swerve.calculateVectors(Robot.oi.getX(), Robot.oi.getY(), Robot.oi.getZ());
     }
 
     // Make this return true when this Command no longer needs to run execute()
