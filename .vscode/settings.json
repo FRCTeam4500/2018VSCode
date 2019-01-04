@@ -10,5 +10,10 @@
     ".classpath": true,
     ".project": true
   },
-  "wpilib.online": true
+  "wpilib.online": true,
+  "editor.autoIndent": true,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.foldingStrategy": "auto",
+  "editor.tabSize": 4
 }
