@@ -33,8 +33,8 @@ public class Swerve extends Subsystem {
     public Swerve(WheelModule fl, WheelModule fr, WheelModule bl, WheelModule br) {
     	this.fl = fl;
     	this.fr = fr;
-    	this.bl = bl;
     	this.br = br;
+        this.bl = bl;
     	
     	gyro = new ADXRS450_Gyro();
     }

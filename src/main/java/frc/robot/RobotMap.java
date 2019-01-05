@@ -29,7 +29,8 @@ public class RobotMap {
     public final static double W = 29.5;
     public final static double COUNTPERDEG = 16.2539;
 
-    public final static double angleP = 2, angleI = 0, angleD = 20, angleF = 0.546, angleV = 7488, angleA = 7488;
+    public final static double angleP = 2, angleI = 0, angleD = 20, angleF = 0.546;
+    public final static int angleV = 7488, angleA = 7488;
 
     /*
      * =================== Configuration ===================

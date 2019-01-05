@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.usfirst.frc.team4500.robot.commands.Misc_VA;
+// import org.usfirst.frc.team4500.robot.commands.Misc_VA;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Swerve;
@@ -72,8 +72,8 @@ public class PhysicsLogger {
 					try {
 						double voltage = .25*i;
 						System.out.println("Voltage: " + voltage);
-						Command command = new Misc_VA(voltage);
-						command.start();
+						// Command command = new Misc_VA(voltage);
+						// command.start();
 						i++;
 						long elapsedTime = getTimeMeasure(System.nanoTime() - startTime);
 						int[] pos = getPositionMeasure();
@@ -86,8 +86,8 @@ public class PhysicsLogger {
 			} else {
 				exec.scheduleAtFixedRate(() -> {
 					try {
-						Command command = new Misc_VA(7.2);
-						command.start();
+						// Command command = new Misc_VA(7.2);
+						// command.start();
 						long elapsedTime = getTimeMeasure(System.nanoTime() - startTime);
 						int[] pos = getPositionMeasure();
 						double[] voltage = getVoltage();
@@ -102,8 +102,8 @@ public class PhysicsLogger {
 			started = true;
 		} else {
 			System.out.println("Stopped Physics.run");
-			Command command = new Misc_VA(0);
-			command.start();
+			// Command command = new Misc_VA(0);
+			// command.start();
 			exec.shutdown();
 			bw.close();
 			started = false;
