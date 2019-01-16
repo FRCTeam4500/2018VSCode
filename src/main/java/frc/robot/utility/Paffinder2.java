@@ -17,10 +17,10 @@ public class Paffinder2 {
     
     //Robot Properties
     private Swerve swerve; //The robot's swerve module.
-    // private WheelModule fl;
-    // private WheelModule fr;
-    // private WheelModule bl;
-    // private WheelModule br;
+    private WheelModule fl;
+    private WheelModule fr;
+    private WheelModule bl;
+    private WheelModule br;
     private double wheelDepth; //The depth between the wheels of the swerve drive.
     private double wheelWidth; //The width between the wheels of the swerve drive.
     private double timeStep; //The time between each iteration of the main control loop.
