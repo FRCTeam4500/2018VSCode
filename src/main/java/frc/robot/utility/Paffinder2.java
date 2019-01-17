@@ -23,7 +23,6 @@ public class Paffinder2 {
     private WheelModule br;
     private double wheelDepth; //The depth between the wheels of the swerve drive.
     private double wheelWidth; //The width between the wheels of the swerve drive.
-    private double timeStep; //The time between each iteration of the main control loop.
     private int ticksPerRevolution;
     private double wheelDiameter;
     //Robot Properties but like PIDVA properties
@@ -41,14 +40,13 @@ public class Paffinder2 {
     private EncoderFollower blFollower;
     private SwerveModifier.Mode mode;
     //Set up the thing and pass in everything because DECOUPLING
-    public Paffinder2(Swerve swerve, double wheelDepth, double wheelWidth, double wheelDiameter, int ticksPerRevolution, double timeStep){
+    public Paffinder2(Swerve swerve, double wheelDepth, double wheelWidth, double wheelDiameter, int ticksPerRevolution){
         this.swerve = swerve;
         this.wheelDepth = wheelDepth;
         this.wheelWidth = wheelWidth;
         this.wheelDiameter = wheelDiameter;
         this.ticksPerRevolution = ticksPerRevolution;
 
-        this.timeStep = timeStep;
         this.mode = SwerveModifier.Mode.SWERVE_DEFAULT;
         fr = swerve.getFR();
         fl = swerve.getFL();
@@ -62,18 +60,20 @@ public class Paffinder2 {
     }
 
     //Pass in the parameters to configure the trajectory, modifier, and encoder followers        
-    public void ConfigureTrajectory(Waypoint[] waypoints,int initialPositionOfWheels){
-
-        Trajectory trajectory = Pathfinder.generate(waypoints,config);
+    public void ConfigureTrajectory(Trajectory trajectory){
         currentModifier = new SwerveModifier(trajectory).modify(wheelWidth,wheelDepth,mode);
         brFollower = new EncoderFollower(currentModifier.getBackRightTrajectory());
         blFollower = new EncoderFollower(currentModifier.getBackLeftTrajectory());
         frFollower = new EncoderFollower(currentModifier.getFrontRightTrajectory());
         flFollower = new EncoderFollower(currentModifier.getFrontLeftTrajectory());
-        fullyConfigureEncoder(brFollower, initialPositionOfWheels);
-        fullyConfigureEncoder(blFollower, initialPositionOfWheels);
-        fullyConfigureEncoder(frFollower, initialPositionOfWheels);
-        fullyConfigureEncoder(flFollower, initialPositionOfWheels);       
+        fullyConfigureEncoder(brFollower, br.getDrivePosition());
+        fullyConfigureEncoder(blFollower, bl.getDrivePosition());
+        fullyConfigureEncoder(frFollower, fr.getDrivePosition());
+        fullyConfigureEncoder(flFollower, fr.getDrivePosition());       
+    }
+    public void ConfigureTrajectory(Waypoint[] waypoints){
+        Trajectory trajectory = Pathfinder.generate(waypoints,config);
+        ConfigureTrajectory(trajectory);
     }
 
     //Run this function every iteration in the main loop.

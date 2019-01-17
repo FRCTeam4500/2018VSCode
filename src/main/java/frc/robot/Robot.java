@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.Robot_Group_PreConfigure;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.WheelModule;
+import frc.robot.utility.Paffinder2;
+import jaci.pathfinder.PathfinderFRC;
+import jaci.pathfinder.Trajectory.FitMethod;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +30,7 @@ public class Robot extends TimedRobot {
     public static Swerve swerve;
     
     public static OI oi;
-
+    public static Paffinder2 paffinder2;
     Command m_autonomousCommand;
 
     /**
@@ -44,6 +47,8 @@ public class Robot extends TimedRobot {
 		swerve = new Swerve(fl, fr, bl, br);
 		
         oi = new OI();
+
+        paffinder2 = new Paffinder2(swerve, RobotMap.wheelBaseDepth, RobotMap.wheelBaseWidth, RobotMap.wheelDiameter, RobotMap.ticksPerRotation);
     }
 
     /**
@@ -92,6 +97,8 @@ public class Robot extends TimedRobot {
         // if (m_autonomousCommand != null) {
         // m_autonomousCommand.start();
         // }
+        paffinder2.ConfigurePIDVA(0, 0, 0, RobotMap.brKv, RobotMap.brKa);
+        paffinder2.ConfigureTrajectory(PathfinderFRC.getTrajectory("PathWeaver\\Paths\\Roro.path"));
     }
 
     /**
@@ -100,6 +107,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        paffinder2.RunNextDriveIteration();
     }
 
     @Override
