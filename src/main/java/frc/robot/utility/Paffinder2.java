@@ -24,6 +24,8 @@ public class Paffinder2 {
     private double wheelDepth; //The depth between the wheels of the swerve drive.
     private double wheelWidth; //The width between the wheels of the swerve drive.
     private double timeStep; //The time between each iteration of the main control loop.
+    private int ticksPerRevolution;
+    private double wheelDiameter;
     //Robot Properties but like PIDVA properties
     private double proportionalGain;
     private double integralGain;
@@ -39,10 +41,13 @@ public class Paffinder2 {
     private EncoderFollower blFollower;
     private SwerveModifier.Mode mode;
     //Set up the thing and pass in everything because DECOUPLING
-    public Paffinder2(Swerve swerve, double wheelDepth, double wheelWidth, double timeStep){
+    public Paffinder2(Swerve swerve, double wheelDepth, double wheelWidth, double wheelDiameter, int ticksPerRevolution, double timeStep){
         this.swerve = swerve;
         this.wheelDepth = wheelDepth;
         this.wheelWidth = wheelWidth;
+        this.wheelDiameter = wheelDiameter;
+        this.ticksPerRevolution = ticksPerRevolution;
+
         this.timeStep = timeStep;
         this.mode = SwerveModifier.Mode.SWERVE_DEFAULT;
         fr = swerve.getFR();
@@ -50,30 +55,25 @@ public class Paffinder2 {
         br = swerve.getBR();
         bl = swerve.getBL();
     }
-    public Paffinder2(Swerve swerve, double wheelDepth, double wheelWidth, double timeStep, SwerveModifier.Mode mode){
-        this.swerve = swerve;
-        this.wheelDepth = wheelDepth;
-        this.wheelWidth = wheelWidth;
-        this.timeStep = timeStep;
-        this.mode = mode;
-        fr = swerve.getFR();
-        fl = swerve.getFL();
-        br = swerve.getBR();
-        bl = swerve.getBL();
+
+    private void fullyConfigureEncoder(EncoderFollower encoderFollower, int initialPosition){
+        encoderFollower.configurePIDVA(proportionalGain, integralGain, derivativeGain, velocityRatio, accelerationGain);
+        encoderFollower.configureEncoder(initialPosition, ticksPerRevolution, wheelDiameter);
     }
 
     //Pass in the parameters to configure the trajectory, modifier, and encoder followers        
-    public void ConfigureTrajectory(Waypoint[] waypoints){
+    public void ConfigureTrajectory(Waypoint[] waypoints,int initialPositionOfWheels){
+
         Trajectory trajectory = Pathfinder.generate(waypoints,config);
         currentModifier = new SwerveModifier(trajectory).modify(wheelWidth,wheelDepth,mode);
         brFollower = new EncoderFollower(currentModifier.getBackRightTrajectory());
-        brFollower.configurePIDVA(proportionalGain,integralGain,derivativeGain,velocityRatio,accelerationGain);
         blFollower = new EncoderFollower(currentModifier.getBackLeftTrajectory());
-        blFollower.configurePIDVA(proportionalGain,integralGain,derivativeGain,velocityRatio,accelerationGain);
         frFollower = new EncoderFollower(currentModifier.getFrontRightTrajectory());
-        frFollower.configurePIDVA(proportionalGain,integralGain,derivativeGain,velocityRatio,accelerationGain);
         flFollower = new EncoderFollower(currentModifier.getFrontLeftTrajectory());
-        flFollower.configurePIDVA(proportionalGain,integralGain,derivativeGain,velocityRatio,accelerationGain);        
+        fullyConfigureEncoder(brFollower, initialPositionOfWheels);
+        fullyConfigureEncoder(blFollower, initialPositionOfWheels);
+        fullyConfigureEncoder(frFollower, initialPositionOfWheels);
+        fullyConfigureEncoder(flFollower, initialPositionOfWheels);       
     }
 
     //Run this function every iteration in the main loop.
@@ -104,5 +104,4 @@ public class Paffinder2 {
     public void ConfigureTrajectoryConfig(FitMethod fitMethod, int samples, double deltaTime, double maxVelocity, double maxAcceleration, double maxJerk){
         config = new Trajectory.Config(fitMethod,samples,deltaTime,maxVelocity,maxAcceleration,maxJerk);
     }
-    
 }
