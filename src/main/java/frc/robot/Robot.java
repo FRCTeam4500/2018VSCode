@@ -17,6 +17,7 @@ import frc.robot.utility.Paffinder2;
 import jaci.pathfinder.PathfinderFRC;
 import jaci.pathfinder.Trajectory.FitMethod;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -98,7 +99,8 @@ public class Robot extends TimedRobot {
         // m_autonomousCommand.start();
         // }
         paffinder2.ConfigurePIDVA(0, 0, 0, RobotMap.brKv, RobotMap.brKa);
-        paffinder2.ConfigureTrajectory(PathfinderFRC.getTrajectory("PathWeaver\\Paths\\Roro.path"));
+
+        paffinder2.ConfigureTrajectory(PathfinderFRC.getTrajectory("Roro.path"));
     }
 
     /**
