@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
 		
 		swerve = new Swerve(fl, fr, bl, br);
 		
-        oi = new OI();
+        //oi = new OI();
 
         paffinder2 = new Paffinder2(swerve, RobotMap.wheelBaseDepth, RobotMap.wheelBaseWidth, RobotMap.wheelDiameter, RobotMap.ticksPerRotation);
     }
