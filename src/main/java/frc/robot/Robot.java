@@ -15,7 +15,6 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.WheelModule;
 import frc.robot.utility.Paffinder2;
 import jaci.pathfinder.PathfinderFRC;
-import jaci.pathfinder.Trajectory.FitMethod;
 
 
 /**
@@ -40,10 +39,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        bl = new WheelModule(RobotMap.BLANGLEPORT, RobotMap.BLSPEEDPORT, "bl", false); 
-		br = new WheelModule(RobotMap.BRANGLEPORT, RobotMap.BRSPEEDPORT, "br", false);
-		fl = new WheelModule(RobotMap.FLANGLEPORT, RobotMap.FLSPEEDPORT, "fl", false); 
-		fr = new WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", false);
+        bl = new WheelModule(15, 14, "bl", false); 
+		br = null;//new WheelModule(RobotMap.BRANGLEPORT, RobotMap.BRSPEEDPORT, "br", false);
+		fl = null;//new WheelModule(RobotMap.FLANGLEPORT, RobotMap.FLSPEEDPORT, "fl", false); 
+		fr = null;// WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", false);
 		
 		swerve = new Swerve(fl, fr, bl, br);
 		
