@@ -32,6 +32,33 @@ public class RobotMap {
     public final static double angleP = 2, angleI = 0, angleD = 20, angleF = 0.546;
     public final static int angleV = 7488, angleA = 7488;
 
+    /*===================
+	 * Shooter
+	 *===================*/
+	
+	public final static int LSHOOTER = 8, RSHOOTER = 9;
+	
+	public final static int LEVELSHOOTERONE = 2, LEVELSHOOTERTWO = 3, LEVELSHOOTERPCM = 1;
+	public final static int LIFTSHOOTERONE = 4, LIFTSHOOTERTWO = 5, LIFTSHOOTERPCM = 1;
+	
+	public final static double RPMTOTICKSPER100MS = 0.146484;
+	
+	public final static int HIGHGOALSPEED = 3300;
+	public final static int LOWGOALSPEED = 2800;
+    public final static int SWITCHSPEED = 1200;
+    
+    /*===================
+	 * Intake
+	 *===================*/
+	
+	public final static int INTAKEPOSITIONMOTOR = 11;
+	public final static int INTAKELEFTMOTOR = 3, INTAKERIGHTMOTOR = 1;
+	public final static int INTAKECLAWSOLENOIDONE = 6, INTAKECLAWSOLENOIDTWO = 7, INTAKECLAWSOLENOIDPCM = 1;
+	
+	 public final static double INTAKE_DOWNPOSITION = 4713;
+	 public final static double INTAKE_SCALEPOSITION = 0;
+     public final static double INTAKE_SWITCHPOSITION = 2053;
+     
     /*
      * =================== Configuration ===================
      */
@@ -70,5 +97,11 @@ public class RobotMap {
      public static void dashboardDisplay() {
          SmartDashboard.putNumber("gyro", Robot.swerve.getGyro());
      }
+
+     /*===================
+	 * Other
+	 *===================*/
+	
+	public final static int COMPRESSOR = 2;
 
 }

@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.Robot_Group_PreConfigure;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PneumaticsCompressor;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.WheelModule;
 
@@ -25,6 +28,9 @@ public class Robot extends TimedRobot {
 
     public static WheelModule fl, fr, bl, br;
     public static Swerve swerve;
+    public static Shooter shooter;
+    public static Intake intake;
+    public static PneumaticsCompressor compress;
     
     public static OI oi;
 
@@ -41,7 +47,11 @@ public class Robot extends TimedRobot {
 		fl = new WheelModule(RobotMap.FLANGLEPORT, RobotMap.FLSPEEDPORT, "fl", false); 
 		fr = new WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", false);
 		
-		swerve = new Swerve(fl, fr, bl, br);
+        swerve = new Swerve(fl, fr, bl, br);
+        
+        shooter = new Shooter();
+        intake = new Intake();
+		compress = new PneumaticsCompressor();
 		
         oi = new OI();
     }
