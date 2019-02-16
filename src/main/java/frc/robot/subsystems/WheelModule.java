@@ -129,6 +129,25 @@ public class WheelModule extends Subsystem {
         angleMotor.set(ControlMode.MotionMagic, angle);
     }
 
+    public void setDrivePosition(double position, String id) {
+        if (this.id.equals(id)) {
+            speedMotor.set(ControlMode.Position, position);
+        } else {
+            speedMotor.set(ControlMode.Follower, RobotMap.FLSPEEDPORT);
+        }
+    }
+
+    public void setAngle(double angle) {
+        angle = adjustAngle(angle);
+        angle *= RobotMap.COUNTPERDEG;
+
+        angleMotor.set(ControlMode.MotionMagic, angle);
+    }
+
+    public void setDriveEncoderPosition(int position) {
+        speedMotor.setSelectedSensorPosition(position);
+    }
+
     public void driveAtVoltage(double voltage) {
         speedMotor.set(ControlMode.PercentOutput, voltage / 12);
         angleMotor.set(ControlMode.MotionMagic, 0);
@@ -144,6 +163,10 @@ public class WheelModule extends Subsystem {
 
     public int getAnglePosition() {
         return angleMotor.getSelectedSensorPosition(0);
+    }
+    
+    public int getDriveError() {
+        return speedMotor.getClosedLoopError(0);
     }
 
     public int getDrivePosition() {

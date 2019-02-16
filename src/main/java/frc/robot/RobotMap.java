@@ -67,6 +67,16 @@ public class RobotMap {
     public final static double DEADZONE_Z = 0.4;
     public final static int TIMEOUT = 0;
 
+    public static double imgW;
+    public static double imgH;
+    public static double imgCenterW;
+    public static double imgCenterH;
+    public static double focalLength;
+    public static final double FOV = 68.5;
+
+    public final static double wheelDiameterCM = 7.62;
+    public final static double robotRotationalRadiusCM = 42;
+
 
     
      /*

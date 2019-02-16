@@ -10,11 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.Intake_ClawClose;
-import frc.robot.commands.Intake_ClawOpen;
-import frc.robot.commands.Intake_Group_LoadCube;
-import frc.robot.commands.Intake_Group_Pressed;
-import frc.robot.commands.Intake_Group_Released;
 import frc.robot.commands.Swerve_GyroReset;
 
 /**
@@ -29,21 +24,8 @@ public class OI {
     Button intakeGrabCube, intakeLoadCube, intakeClawOpen;
     
     public OI() {
-        if (!driveStick.getName().equals("")) {
-			driveResetGyro = new JoystickButton(driveStick, 7);
-            driveResetGyro.whenPressed(new Swerve_GyroReset());
-
-            intakeGrabCube = new JoystickButton(driveStick, 1);
-            intakeGrabCube.whenPressed(new Intake_Group_Pressed(0.6, 0.6));
-            intakeGrabCube.whenReleased(new Intake_Group_Released());
-            
-            intakeLoadCube = new JoystickButton(driveStick, 3);
-            intakeLoadCube.whenPressed(new Intake_Group_LoadCube());
-            
-            intakeClawOpen = new JoystickButton(driveStick, 2);
-            intakeClawOpen.whenPressed(new Intake_ClawOpen());
-            intakeClawOpen.whenReleased(new Intake_ClawClose());
-        }
+        driveResetGyro = new JoystickButton(driveStick, 7);
+        driveResetGyro.whenPressed(new Swerve_GyroReset());
     }
 
     public double getX() {
