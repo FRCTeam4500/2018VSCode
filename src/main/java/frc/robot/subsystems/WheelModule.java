@@ -44,17 +44,35 @@ public class WheelModule extends Subsystem {
         speedMotor.configPeakOutputReverse(-1);
 
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
+        angleMotor.setSelectedSensorPosition(0);
 
-        angleMotor.setSensorPhase(false);
+        speedMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
+        speedMotor.setSelectedSensorPosition(0);
+        if (id == "fr") {
+            angleMotor.setSensorPhase(true);
+        } else {
+            angleMotor.setSensorPhase(false);
+        }
+
         angleMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
-        angleMotor.config_kP(0, RobotMap.angleP, RobotMap.TIMEOUT); // 0.8
-        angleMotor.config_kI(0, RobotMap.angleI, RobotMap.TIMEOUT);
-        angleMotor.config_kD(0, RobotMap.angleD, RobotMap.TIMEOUT); // 80
-        angleMotor.config_kF(0, RobotMap.angleF, RobotMap.TIMEOUT);
-        angleMotor.config_IntegralZone(0, 0, RobotMap.TIMEOUT);
-        angleMotor.configMotionCruiseVelocity(RobotMap.angleV, RobotMap.TIMEOUT);
-        angleMotor.configMotionAcceleration(RobotMap.angleA, RobotMap.TIMEOUT); // 1800
+        angleMotor.config_kP(0, 1.023, RobotMap.TIMEOUT); // 0.8
+        angleMotor.config_kI(0, 0.004, RobotMap.TIMEOUT);
+        angleMotor.config_kD(0, 15, RobotMap.TIMEOUT); // 80
+        angleMotor.config_kF(0, 0.317, RobotMap.TIMEOUT);
+        angleMotor.config_IntegralZone(0, 50, RobotMap.TIMEOUT);
+        angleMotor.configMotionCruiseVelocity(6000, RobotMap.TIMEOUT);
+        angleMotor.configMotionAcceleration(6000, RobotMap.TIMEOUT); // 1800
         angleMotor.setInverted(inverted);
+        
+        speedMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
+        speedMotor.config_kP(0, 0.746, RobotMap.TIMEOUT); // 0.8
+        speedMotor.config_kI(0, 0.01, RobotMap.TIMEOUT);
+        speedMotor.config_kD(0, 7.46, RobotMap.TIMEOUT); // 80
+        speedMotor.config_kF(0, 0.094, RobotMap.TIMEOUT);
+        speedMotor.config_IntegralZone(0, 200, RobotMap.TIMEOUT);
+        speedMotor.configMotionCruiseVelocity(5500, RobotMap.TIMEOUT);
+        speedMotor.configMotionAcceleration(5500, RobotMap.TIMEOUT); // 1800
+        speedMotor.setSensorPhase(true);
     }
 
     @Override
@@ -127,13 +145,15 @@ public class WheelModule extends Subsystem {
 
         speedMotor.set(ControlMode.PercentOutput, speed);
         angleMotor.set(ControlMode.MotionMagic, angle);
+        // angleMotor.set(ControlMode.MotionMagic, angle);
     }
 
     public void setDrivePosition(double position, String id) {
         if (this.id.equals(id)) {
-            speedMotor.set(ControlMode.Position, position);
+            System.out.println("Moving to " + position + " at an error of " + speedMotor.getClosedLoopError());
+            speedMotor.set(ControlMode.MotionMagic, position);
         } else {
-            speedMotor.set(ControlMode.Follower, RobotMap.FLSPEEDPORT);
+            speedMotor.set(ControlMode.Follower, RobotMap.BRSPEEDPORT);
         }
     }
 
@@ -177,6 +197,13 @@ public class WheelModule extends Subsystem {
         return speedMotor.getMotorOutputVoltage();
     }
 
+    public double getAngleVelocity() {
+        return angleMotor.getSelectedSensorVelocity();
+    }
+
+    public double getDriveVelocity() {
+        return speedMotor.getSelectedSensorVelocity();
+    }
     public TalonSRX getSpeedMotor() {
         return speedMotor;
     }

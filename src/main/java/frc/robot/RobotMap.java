@@ -20,10 +20,10 @@ public class RobotMap {
      * =================== Drivetrain ===================
      */
 
-    public final static int FLSPEEDPORT = 7, FLANGLEPORT = 10;
-    public final static int FRSPEEDPORT = 2, FRANGLEPORT = 1;
-    public final static int BLSPEEDPORT = 6, BLANGLEPORT = 5;
-    public final static int BRSPEEDPORT = 3, BRANGLEPORT = 4;
+    public final static int FLSPEEDPORT = 3, FLANGLEPORT = 4;
+    public final static int FRSPEEDPORT = 6, FRANGLEPORT = 5;
+    public final static int BLSPEEDPORT = 1, BLANGLEPORT = 2;
+    public final static int BRSPEEDPORT = 7, BRANGLEPORT = 8;
 
     public final static double L = 29.5;
     public final static double W = 29.5;
@@ -106,6 +106,7 @@ public class RobotMap {
 
      public static void dashboardDisplay() {
          SmartDashboard.putNumber("gyro", Robot.swerve.getGyro());
+         SmartDashboard.putNumber("brErr", Robot.swerve.getBR().getDriveError());
      }
 
      /*===================

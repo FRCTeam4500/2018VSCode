@@ -42,7 +42,7 @@ public class Swerve extends Subsystem {
     
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new Swerve_Drive());
+        // setDefaultCommand(new Swerve_Drive());
     }
     
     /*
@@ -152,10 +152,10 @@ public class Swerve extends Subsystem {
     }
 
     public void setDrivePosition(double pos) {
-        fl.setDrivePosition(pos, "fl");
-        fr.setDrivePosition(pos, "fl");
-        bl.setDrivePosition(pos, "fl");
-        br.setDrivePosition(pos, "fl");
+        br.setDrivePosition(pos, "br");
+        fl.setDrivePosition(pos, "br");
+        fr.setDrivePosition(pos, "br");
+        bl.setDrivePosition(pos, "br");
     }
     
     /**

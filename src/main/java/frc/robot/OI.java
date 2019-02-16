@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.automation.Automation_Group_Test;
+import frc.robot.automation.DriveTune;
 import frc.robot.commands.Swerve_GyroReset;
 
 /**
@@ -20,12 +22,30 @@ public class OI {
 
     Joystick driveStick;
     
-    Button driveResetGyro;
+    Button driveResetGyro, driveTuneOne, driveTuneTwo, driveTuneThree, driveTuneFour;
     Button intakeGrabCube, intakeLoadCube, intakeClawOpen;
+    Button automationOne, automationTwo;
     
     public OI() {
-        driveResetGyro = new JoystickButton(driveStick, 7);
-        driveResetGyro.whenPressed(new Swerve_GyroReset());
+        driveStick = new Joystick(0);
+
+        // driveResetGyro = new JoystickButton(driveStick, 7);
+        // driveResetGyro.whenPressed(new Swerve_GyroReset());
+
+        driveTuneOne = new JoystickButton(driveStick, 7);
+        driveTuneOne.whenPressed(new DriveTune(2000));
+        
+        driveTuneTwo = new JoystickButton(driveStick, 9);
+        driveTuneTwo.whenPressed(new DriveTune(-2000));
+
+        driveTuneThree = new JoystickButton(driveStick, 8);
+        driveTuneThree.whenPressed(new DriveTune(8000));
+
+        driveTuneFour = new JoystickButton(driveStick, 10);
+        driveTuneFour.whenPressed(new DriveTune(-8000));
+
+        // automationOne = new JoystickButton(driveStick, 8);
+        // automationOne.whenPressed(new Automation_Group_Test());
     }
 
     public double getX() {

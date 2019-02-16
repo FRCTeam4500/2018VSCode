@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.automation.Automation_Group_Test;
 import frc.robot.commands.Robot_Group_PreConfigure;
+import frc.robot.commands.Swerve_Drive;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.WheelModule;
 import frc.robot.utility.automation.Vision;
@@ -41,7 +44,7 @@ public class Robot extends TimedRobot {
         bl = new WheelModule(RobotMap.BLANGLEPORT, RobotMap.BLSPEEDPORT, "bl", false); 
 		br = new WheelModule(RobotMap.BRANGLEPORT, RobotMap.BRSPEEDPORT, "br", false);
 		fl = new WheelModule(RobotMap.FLANGLEPORT, RobotMap.FLSPEEDPORT, "fl", false); 
-		fr = new WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", false);
+		fr = new WheelModule(RobotMap.FRANGLEPORT, RobotMap.FRSPEEDPORT, "fr", true);
 		
         swerve = new Swerve(fl, fr, bl, br);
         
@@ -95,6 +98,11 @@ public class Robot extends TimedRobot {
         // if (m_autonomousCommand != null) {
         // m_autonomousCommand.start();
         // }
+        if (swerve.getDefaultCommand() != null) {
+            swerve.setDefaultCommand(null);
+        }
+        Command cmd = new Automation_Group_Test();
+        cmd.start();
     }
 
     /**
@@ -112,6 +120,9 @@ public class Robot extends TimedRobot {
         // }
         Command preconfigure = new Robot_Group_PreConfigure();
         preconfigure.start();
+        if (swerve.getDefaultCommand() == null) {
+            swerve.setDefaultCommand(new Swerve_Drive());
+        }
     }
 
     /**
@@ -129,5 +140,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+        // fr.drive(0, 1);
+        br.drive(1, 0);
+        SmartDashboard.putNumber("brVel", br.getDriveVelocity());
     }
 }
