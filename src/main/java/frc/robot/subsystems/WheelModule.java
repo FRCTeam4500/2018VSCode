@@ -44,6 +44,42 @@ public class WheelModule extends Subsystem {
         speedMotor.configPeakOutputReverse(-1);
 
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
+        System.out.println("---------- CALLED ----------");
         angleMotor.setSelectedSensorPosition(0);
 
         speedMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
@@ -65,11 +101,11 @@ public class WheelModule extends Subsystem {
         angleMotor.setInverted(inverted);
         
         speedMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
-        speedMotor.config_kP(0, 0.746, RobotMap.TIMEOUT); // 0.8
-        speedMotor.config_kI(0, 0.01, RobotMap.TIMEOUT);
-        speedMotor.config_kD(0, 7.46, RobotMap.TIMEOUT); // 80
+        speedMotor.config_kP(0, 0.96, RobotMap.TIMEOUT); // 0.8
+        speedMotor.config_kI(0, 0, RobotMap.TIMEOUT);
+        speedMotor.config_kD(0, 30, RobotMap.TIMEOUT); // 80
         speedMotor.config_kF(0, 0.094, RobotMap.TIMEOUT);
-        speedMotor.config_IntegralZone(0, 200, RobotMap.TIMEOUT);
+        speedMotor.config_IntegralZone(0, 0, RobotMap.TIMEOUT);
         speedMotor.configMotionCruiseVelocity(5500, RobotMap.TIMEOUT);
         speedMotor.configMotionAcceleration(5500, RobotMap.TIMEOUT); // 1800
         speedMotor.setSensorPhase(true);
@@ -204,6 +240,7 @@ public class WheelModule extends Subsystem {
     public double getDriveVelocity() {
         return speedMotor.getSelectedSensorVelocity();
     }
+
     public TalonSRX getSpeedMotor() {
         return speedMotor;
     }

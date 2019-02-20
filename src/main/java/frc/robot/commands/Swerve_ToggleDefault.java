@@ -5,56 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.automation;
+package frc.robot.commands;
 
-import java.util.stream.IntStream;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Automation_SetWheelAngle extends Command {
+public class Swerve_ToggleDefault extends Command {
     
-    private double x, y, z;
     
-    public Automation_SetWheelAngle(double x, double y, double z) {
+    public Swerve_ToggleDefault() {
+        // Use requires() here to declare subsystem dependencies
         requires(Robot.swerve);
-        this.x = x;
-        this.y = y;
-        this.z = z;
     }
     
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        setTimeout(3);
-        System.out.println("[INIT] SetWheelAngle");
-        System.out.println("[LOG] anglePos " + Robot.swerve.getFL().getAnglePosition());
-        Robot.swerve.setAngle(x, y, z);
-        Timer.delay(0.2); // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        
+        System.out.print("[INIT] Toggling default to ");
+        if (Robot.swerve.getDefaultCommand() == null) {
+            Robot.swerve.setDefaultCommand(new Swerve_Drive());
+            System.out.print("enabled");
+        } else {
+            Robot.swerve.setDefaultCommand(null);
+            System.out.print("disabled");
+        }
+        System.out.println("");
     }
     
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.swerve.setAngle(x, y, z);
-        System.out.println("[LOG] anglePos " + Robot.swerve.getFL().getAnglePosition());
     }
     
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        // double sumOfError = IntStream.of(Robot.swerve.getAngleError()).sum();
-        double sumOfError = Robot.swerve.getFL().getAngleError();
-        System.out.println("Checking if " + sumOfError + " <= 10");
-        return Math.abs(sumOfError) <= 10 || isTimedOut();
+        return true;
     }
     
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("[END] SetWheelAngle");
+        System.out.println("[END] ToggleDefault");
     }
     
     // Called when another command which requires one or more of the same

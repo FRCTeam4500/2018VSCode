@@ -44,8 +44,8 @@ public class OI {
         driveTuneFour = new JoystickButton(driveStick, 10);
         driveTuneFour.whenPressed(new DriveTune(-8000));
 
-        // automationOne = new JoystickButton(driveStick, 8);
-        // automationOne.whenPressed(new Automation_Group_Test());
+        automationOne = new JoystickButton(driveStick, 4);
+        automationOne.whenPressed(new Automation_Group_Test());
     }
 
     public double getX() {

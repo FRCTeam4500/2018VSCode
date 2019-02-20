@@ -74,8 +74,8 @@ public class RobotMap {
     public static double focalLength;
     public static final double FOV = 68.5;
 
-    public final static double wheelDiameterCM = 7.62;
-    public final static double robotRotationalRadiusCM = 42;
+    public final static double wheelDiameterCM = 8.255;
+    public final static double robotRotationalRadiusCM = 44.45;
 
 
     
