@@ -28,8 +28,11 @@ public class Automation_rotAlign extends Command {
         // Controllers.rotationalAlignmentController.reset();
         Robot.swerve.getBR().setDriveEncoderPosition(0);
         double angle = Robot.vision.getAngle();
-        double distanceToMove = (1024 * RobotMap.robotRotationalRadiusCM * angle) / (45 * RobotMap.wheelDiameterCM);
+        // double distanceToMove = (1024 * RobotMap.robotRotationalRadiusCM * angle) / (45 * RobotMap.wheelDiameterCM);
+        double distanceToMove = (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation * angle) / 360 * RobotMap.wheelDiameterCM;
+        double newAngle = (distanceToMove / RobotMap.driveTicksFor360Deg) * 360;
         System.out.println("The distance to move is " + distanceToMove);
+        System.out.println("The new angle is  " + newAngle);
         this.distanceToMove = distanceToMove;
         Robot.swerve.setDrivePosition(distanceToMove);
         Timer.delay(0.2);

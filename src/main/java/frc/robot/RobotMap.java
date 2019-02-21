@@ -73,9 +73,13 @@ public class RobotMap {
     public static double imgCenterH;
     public static double focalLength;
     public static final double FOV = 68.5;
+    public final static double driveTicksPerRotation = 5632;
+    public final static double angleTicksPerRotation = 5851;
+    public final static double cameraHeight = -1;
 
     public final static double wheelDiameterCM = 8.255;
-    public final static double robotRotationalRadiusCM = 44.45;
+    public final static double wheelToRobotCenterDiameterCM = 88.9;
+    public final static double driveTicksFor360Deg = (wheelToRobotCenterDiameterCM / wheelDiameterCM)*driveTicksPerRotation;
 
 
     
