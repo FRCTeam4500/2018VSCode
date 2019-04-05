@@ -7,10 +7,12 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.Swerve_Drive;
 
 /**
 * Add your docs here.
@@ -21,7 +23,7 @@ public class Swerve extends Subsystem {
     
     private WheelModule fl, fr, bl, br;
     
-    private ADXRS450_Gyro gyro;
+    private AHRS gyro;
     
     /**
     * Constructor that takes each of the four modules that make up swerve drive
@@ -36,7 +38,7 @@ public class Swerve extends Subsystem {
         this.br = br;
         this.bl = bl;
         
-        gyro = new ADXRS450_Gyro();
+        gyro = new AHRS(SPI.Port.kMXP);
     }
     
     
@@ -144,7 +146,6 @@ public class Swerve extends Subsystem {
         double frAngle = (Math.atan2(b, c) * 180 / Math.PI);
         double flAngle = (Math.atan2(b, d) * 180 / Math.PI);
         
-        System.out.println("Setting angle to " + brAngle + " with an error of " + br.getAngleError());
         br.setAngle(brAngle);
         bl.setAngle(blAngle);
         fr.setAngle(frAngle);
@@ -156,6 +157,13 @@ public class Swerve extends Subsystem {
         fl.setDrivePosition(pos, "br");
         fr.setDrivePosition(pos, "br");
         bl.setDrivePosition(pos, "br");
+    }
+
+    public void cancelLoops() {
+        br.cancelLoop();
+        fl.cancelLoop();
+        fr.cancelLoop();
+        bl.cancelLoop();
     }
     
     /**

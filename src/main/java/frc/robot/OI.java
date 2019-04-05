@@ -27,40 +27,40 @@ public class OI {
     Button automationOne, automationTwo;
     
     public OI() {
-        driveStick = new Joystick(0);
-
-        // driveResetGyro = new JoystickButton(driveStick, 7);
+        // driveStick = new Joystick(0);
+        
+        // driveResetGyro = new JoystickButton(driveStick, 1);
         // driveResetGyro.whenPressed(new Swerve_GyroReset());
 
-        driveTuneOne = new JoystickButton(driveStick, 7);
-        driveTuneOne.whenPressed(new DriveTune(2000));
+        // driveTuneOne = new JoystickButton(driveStick, 7);
+        // driveTuneOne.whenPressed(new DriveTune(2000));
         
-        driveTuneTwo = new JoystickButton(driveStick, 9);
-        driveTuneTwo.whenPressed(new DriveTune(-2000));
+        // driveTuneTwo = new JoystickButton(driveStick, 9);
+        // driveTuneTwo.whenPressed(new DriveTune(-2000));
 
-        driveTuneThree = new JoystickButton(driveStick, 8);
-        driveTuneThree.whenPressed(new DriveTune(8000));
+        // driveTuneThree = new JoystickButton(driveStick, 8);
+        // driveTuneThree.whenPressed(new DriveTune(8000));
 
-        driveTuneFour = new JoystickButton(driveStick, 10);
-        driveTuneFour.whenPressed(new DriveTune(-8000));
+        // driveTuneFour = new JoystickButton(driveStick, 10);
+        // driveTuneFour.whenPressed(new DriveTune(-8000));
 
-        automationOne = new JoystickButton(driveStick, 4);
-        automationOne.whenPressed(new Automation_Group_Test());
+        // automationOne = new JoystickButton(driveStick, 4);
+        // automationOne.whenPressed(new Automation_Group_Test());
     }
 
     public double getX() {
-		return Math.abs(driveStick.getX()) > RobotMap.DEADZONE_XY ? driveStick.getX() : 0;
+		return 0;//Math.abs(driveStick.getX()) > RobotMap.DEADZONE_XY ? driveStick.getX() : 0;
 	}
 	
 	public double getY() {
-		return Math.abs(driveStick.getY()) > RobotMap.DEADZONE_XY ? driveStick.getY() : 0;
+		return 0;//Math.abs(driveStick.getY()) > RobotMap.DEADZONE_XY ? driveStick.getY() : 0;
 	}
 	
 	public double getZ() {
-		return Math.abs(driveStick.getZ()) > RobotMap.DEADZONE_Z ? driveStick.getZ() : 0;
+		return 0;//Math.abs(driveStick.getZ()) > RobotMap.DEADZONE_Z ? Math.pow(driveStick.getZ(), 5) : 0;
 	}
 	
 	public double getSlider() {
-		return driveStick.getThrottle();
+		return 0;//driveStick.getThrottle();
 	}
 }

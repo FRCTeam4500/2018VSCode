@@ -5,19 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.automation;
+package frc.robot.testing;
 
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.utility.Logger;
 
+public class Testing_SetWheelAngle extends Command {
 
-public class Automation_SetWheelAngle extends Command {
-    
-    private double x, y, z;
     private int errorSum = 0;
+    private int lastError = 0;
+    private double x, y, z;
     
-    public Automation_SetWheelAngle(double x, double y, double z) {
+    public Testing_SetWheelAngle(double x, double y, double z) {
         requires(Robot.swerve);
         this.x = x;
         this.y = y;
@@ -27,11 +29,15 @@ public class Automation_SetWheelAngle extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.logger.write(Logger.LogEvent.EVENT, "Initializing", this);
+        Robot.logger.write(Logger.LogEvent.EVENT, "Initializing Testing_SetWheelAngle", this);
+        Preferences prefs = Robot.prefs;
         setTimeout(3);
+        // double angleX = prefs.getDouble("Angle X", 0.0);
+        // double angleY = prefs.getDouble("Angle Y", 0.0);
+        // double angleZ = prefs.getDouble("Angle Z", 0.0);
         Robot.logger.write(Logger.LogEvent.INFO, String.format("aX: %.2f aY: %.2f aZ: %.2f", x, y, z), this);
-        Robot.swerve.setAngle(x, y, z);
-        
+        Robot.swerve.setAngle(x, y, z);  
+        // Timer.delay(1);
     }
     
     // Called repeatedly when this Command is scheduled to run
@@ -46,18 +52,18 @@ public class Automation_SetWheelAngle extends Command {
         errorSum += Robot.swerve.getFL().getAngleError();
         boolean conditionA = errorSum > 0 && Math.abs(Robot.swerve.getFL().getAngleError()) < 5;
         boolean conditionB = this.isTimedOut();
-
+        
         Robot.logger.write(Logger.LogEvent.INFO, String.format("AngleError condition is %b, timedOut condition is %b", conditionA, conditionB), this);
-
+        lastError = Robot.swerve.getFL().getAngleError();
+        
         return conditionA || conditionB;
-
     }
     
     // Called once after isFinished returns true
     @Override
     protected void end() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Testing_SetWheelAngle has ended", this);
-        // Robot.swerve.cancelLoops();
+        Robot.swerve.cancelLoops();
     }
     
     // Called when another command which requires one or more of the same
