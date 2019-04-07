@@ -3,10 +3,18 @@ package frc.robot.utility.automation;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Talon;
 import frc.robot.RobotMap;
 
+/**
+ * Contains the NetworkTableEntrys to pull the data sent from the rPI to the NetworkTables
+ */
 public class Vision {
 
+    // The instance of every network table on the network
     private NetworkTableInstance nt;
     private NetworkTable table;
     // private NetworkTableEntry centerX, centerY;

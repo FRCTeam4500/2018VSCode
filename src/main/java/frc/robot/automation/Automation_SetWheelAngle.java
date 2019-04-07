@@ -29,9 +29,8 @@ public class Automation_SetWheelAngle extends Command {
     protected void initialize() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Initializing", this);
         setTimeout(3);
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("aX: %.2f aY: %.2f aZ: %.2f", x, y, z), this);
-        Robot.swerve.setAngle(x, y, z);
-        
+        // Robot.logger.write(Logger.LogEvent.INFO, String.format("aX: %.2f aY: %.2f aZ: %.2f", x, y, z), this);
+        Robot.swerve.setAngle(x, y, z);   
     }
     
     // Called repeatedly when this Command is scheduled to run
@@ -50,7 +49,6 @@ public class Automation_SetWheelAngle extends Command {
         Robot.logger.write(Logger.LogEvent.INFO, String.format("AngleError condition is %b, timedOut condition is %b", conditionA, conditionB), this);
 
         return conditionA || conditionB;
-
     }
     
     // Called once after isFinished returns true

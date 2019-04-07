@@ -7,7 +7,6 @@
 
 package frc.robot.automation;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -15,7 +14,7 @@ import frc.robot.utility.Logger;
 
 public class Automation_rotAlign extends Command {
     
-    private double distanceToMove;
+    // private double distanceToMove;
     private int errorSum = 0;
     
     public Automation_rotAlign() {
@@ -27,19 +26,21 @@ public class Automation_rotAlign extends Command {
     @Override
     protected void initialize() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Initializing", this);
-        setTimeout(3);
+        setTimeout(5);
 
         Robot.swerve.getBR().setDriveEncoderPosition(0);
         double angle = Robot.vision.getAngle();
-        // double distanceToMove = (1024 * RobotMap.robotRotationalRadiusCM * angle) / (45 * RobotMap.wheelDiameterCM);
         double distanceToMove = (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation * angle) / (360 * RobotMap.wheelDiameterCM);
         
         
-        // double newAngle = (distanceToMove / RobotMap.driveTicksFor360Deg) * 360;
+        double newAngle = (distanceToMove / RobotMap.driveTicksFor360Deg) * 360;
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("Angle is %.2f", angle), this);
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("Distance to move is %.2f", distanceToMove), this);
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("newAngle is %.2f", newAngle), this);
         // System.out.println("[LOG] angle " + angle);
         // System.out.println("[LOG] distanceToMove " + distanceToMove);
         // System.out.println("[LOG] newAngle" + newAngle);
-        this.distanceToMove = distanceToMove;
+        // this.distanceToMove = distanceToMove;
         Robot.swerve.setDrivePosition(distanceToMove);
     }
     
@@ -52,21 +53,20 @@ public class Automation_rotAlign extends Command {
     @Override
     protected boolean isFinished() {
         errorSum += Robot.swerve.getBR().getDriveError();
-        boolean conditionA = errorSum > 0 && Math.abs( Robot.swerve.getBR().getDriveError()) < 5;
+        boolean conditionA = errorSum > 0 && Math.abs(Robot.swerve.getBR().getDriveError()) < 5;
         boolean conditionB = this.isTimedOut();
-
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("AngleError condition is %b, timedOut condition is %b", conditionA, conditionB), this);
         return conditionA || conditionB;
     }
     
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        // double err = Robot.swerve.getBR().getDriveError();
-        // System.out.println("[LOG] final drive error is " + err);
+        double err = Robot.swerve.getBR().getDriveError();
         // System.out.println("[LOG] final drive error as angle " + (360 * err * RobotMap.wheelDiameter) / (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation));
-        // System.out.println("[END] rotAlign");
-        Robot.logger.write(Logger.LogEvent.EVENT, "Ended execution", this);
-
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error %.2f", err), this);
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error as angle is %.2f", (360*err*RobotMap.wheelDiameter) / (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation)), this);
+        Robot.logger.write(Logger.LogEvent.EVENT, "Finished execution", this);
     }
     
     // Called when another command which requires one or more of the same

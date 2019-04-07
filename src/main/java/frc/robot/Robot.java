@@ -7,19 +7,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.automation.Automation_Group_Test;
+import frc.robot.automation.Automation_SetWheelAngle;
+import frc.robot.automation.Automation_rotAlign;
+import frc.robot.automation.Automation_xAlign;
 import frc.robot.commands.Robot_Group_PreConfigure;
 import frc.robot.commands.Swerve_Drive;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.WheelModule;
-import frc.robot.testing.Testing_Group;
-import frc.robot.testing.Testing_SetWheelAngle;
 import frc.robot.utility.Logger;
+import frc.robot.utility.automation.RotAlignInterface;
 import frc.robot.utility.automation.Vision;
 
 /**
@@ -36,6 +41,9 @@ public class Robot extends TimedRobot {
     public static Vision vision;
     public static Preferences prefs;
     public static Logger logger;
+
+    public static RotAlignInterface rotAlignInterface;
+    public static PIDController rotAlignController, xAlignController;
     
     public static OI oi;
 
@@ -55,9 +63,18 @@ public class Robot extends TimedRobot {
         swerve = new Swerve(fl, fr, bl, br);
         
         vision = new Vision();
+        
+        rotAlignController = new PIDController(0, 0, 0, rotAlignInterface, rotAlignInterface);
+        rotAlignController.setInputRange(-360, 360);
+        rotAlignController.setOutputRange(-RobotMap.driveTicksFor360Deg, RobotMap.driveTicksFor360Deg);
+        rotAlignController.setPercentTolerance(20);
+
         prefs = Preferences.getInstance();
-        SmartDashboard.putData("Testing_SetWheelAngle", new Testing_SetWheelAngle(prefs.getDouble("Angle X", 0.0), prefs.getDouble("Angle Y", 0.0), prefs.getDouble("Angle Z", 0.0)));
-        SmartDashboard.putData("Testing_Group", new Testing_Group());
+        SmartDashboard.putData("Automation_Group_Test", new Automation_Group_Test());
+        SmartDashboard.putData("Automation_SetWheelAngle", new Automation_SetWheelAngle(prefs.getDouble("Angle X", 0.0), prefs.getDouble("Angle Y", 0.0), prefs.getDouble("Angle Z", 0.0)));
+        SmartDashboard.putData("Automation_rotAlign", new Automation_rotAlign());
+        SmartDashboard.putData("Automation_xAlign", new Automation_xAlign());
+        // SmartDashboard.putData("Testing_Group", new Testing_Group());
         prefs.putDouble("Angle X", 0.0);
         prefs.putDouble("Angle Y", 0.0);
         prefs.putDouble("Angle Z", 0.0);
@@ -90,7 +107,6 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        logger.write(Logger.LogEvent.EVENT, "Pie", this);
         RobotMap.dashboardDisplay();
     }
 
@@ -148,13 +164,17 @@ public class Robot extends TimedRobot {
         RobotMap.dashboardDisplay();
     }
 
+    @Override
+    public void testInit() {
+        logger.setDebugMode(true);    
+    }
+
     /**
      * This function is called periodically during test mode.
      */
     @Override
     public void testPeriodic() {
-        // fr.drive(0, 1);
-        br.drive(1, 0);
-        SmartDashboard.putNumber("brVel", br.getDriveVelocity());
+
     }
+
 }

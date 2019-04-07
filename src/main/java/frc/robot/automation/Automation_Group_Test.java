@@ -21,7 +21,6 @@ public class Automation_Group_Test extends CommandGroup {
   public Automation_Group_Test() {
     requires(Robot.swerve);
     
-    addSequential(new PrintCommand("===== Starting ====="));
     addSequential(new Swerve_ToggleDefault());
     addSequential(new Automation_SetWheelAngle(0, 0, 1));
     addSequential(new Automation_rotAlign());
