@@ -16,7 +16,7 @@ import frc.robot.utility.Logger;
 /**
  * Add your docs here.
  */
-public class RotAlignInterface extends Vision implements PIDOutput, PIDSource {
+public class PID_RotAlignSO extends Vision implements PIDOutput, PIDSource {
 
     @Override
     public void setPIDSourceType(PIDSourceType pidSource) {

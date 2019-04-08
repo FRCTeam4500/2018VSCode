@@ -75,11 +75,12 @@ public class RobotMap {
     public static final double FOV = 68.5;
     public final static double driveTicksPerRotation = 5632;
     public final static double angleTicksPerRotation = 5851;
-    public final static double cameraHeight = -1;
+    public final static double cameraHeight = 15.24;
 
     public final static double wheelDiameterCM = 8.255;
     public final static double wheelToRobotCenterDiameterCM = 88.9;
-    public final static double driveTicksFor360Deg = (wheelToRobotCenterDiameterCM / wheelDiameterCM)*driveTicksPerRotation;
+    public final static double driveTicksFor360Deg = 58500;
+    // public final static double driveTicksFor360Deg = (wheelToRobotCenterDiameterCM / wheelDiameterCM)*driveTicksPerRotation;
 
 
     
@@ -111,6 +112,7 @@ public class RobotMap {
      public static void dashboardDisplay() {
          SmartDashboard.putNumber("gyro", Robot.swerve.getGyro());
          SmartDashboard.putNumber("brErr", Robot.swerve.getBR().getDriveError());
+         SmartDashboard.putNumber("brPos", Robot.swerve.getBR().getDrivePosition());
      }
 
      /*===================

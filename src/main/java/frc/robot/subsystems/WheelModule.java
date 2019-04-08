@@ -40,20 +40,19 @@ public class WheelModule extends Subsystem {
         angleMotor = new TalonSRX(anglePort);
         speedMotor = new TalonSRX(speedPort);
 
-        speedMotor.configPeakOutputForward(1);
-        speedMotor.configPeakOutputReverse(-1);
-
+        
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
         angleMotor.setSelectedSensorPosition(0);
 
         speedMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
+        
         speedMotor.setSelectedSensorPosition(0);
         if (id == "fr") {
             angleMotor.setSensorPhase(true);
         } else {
             angleMotor.setSensorPhase(false);
         }
-
+        
         angleMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
         angleMotor.config_kP(0, 1.023, RobotMap.TIMEOUT); // 0.8
         angleMotor.config_kI(0, 0.004, RobotMap.TIMEOUT);
@@ -64,10 +63,16 @@ public class WheelModule extends Subsystem {
         angleMotor.configMotionAcceleration(6000, RobotMap.TIMEOUT); // 1800
         angleMotor.setInverted(inverted);
         
+
+        speedMotor.configPeakOutputForward(1);
+        speedMotor.configPeakOutputReverse(-1);
         speedMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
         speedMotor.config_kP(0, 0.7, RobotMap.TIMEOUT); // 0.96
         speedMotor.config_kI(0, 0, RobotMap.TIMEOUT);
         speedMotor.config_kD(0, 30, RobotMap.TIMEOUT); // 30
+        // speedMotor.configClosedloopRamp(2, RobotMap.TIMEOUT);
+        speedMotor.configClosedLoopPeakOutput(0, 12.0/12.0, RobotMap.TIMEOUT);
+        
         // speedMotor.config_kF(0, 0.094, RobotMap.TIMEOUT);
         // speedMotor.config_IntegralZone(0, 0, RobotMap.TIMEOUT);
         // speedMotor.configMotionCruiseVelocity(5500, RobotMap.TIMEOUT);
@@ -132,14 +137,16 @@ public class WheelModule extends Subsystem {
     public void drive(double speed, double angle) {
         angle = adjustAngle(angle);
 
-        if (angle > lastAngle && angle - lastAngle > 90) {
-            angle = angle - 180;
-            speed = -speed;
-        } else if (angle < lastAngle && lastAngle - angle > 90) {
-            angle = angle + 180;
-            speed = -speed;
-        }
-        lastAngle = angle;
+        // if (angle > lastAngle && angle - lastAngle > 90) {
+        //     System.out.println("------------- HERE -------------");
+        //     angle = angle - 180;
+        //     speed = -speed;
+        // } else if (angle < lastAngle && lastAngle - angle > 90) {
+        //     System.out.println("------------- HERE -------------");
+        //     angle = angle + 180;
+        //     speed = -speed;
+        // }
+        // lastAngle = angle;
 
         angle *= RobotMap.COUNTPERDEG;
 
@@ -150,7 +157,7 @@ public class WheelModule extends Subsystem {
 
     public void setDrivePosition(double position, String id) {
         if (this.id.equals(id)) {
-            System.out.println("Moving to " + position + " at an error of " + speedMotor.getClosedLoopError());
+            // System.out.println("Moving to " + position + " at an error of " + speedMotor.getClosedLoopError());
             speedMotor.set(ControlMode.MotionMagic, position);
         } else {
             speedMotor.set(ControlMode.Follower, RobotMap.BRSPEEDPORT);

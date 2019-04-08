@@ -13,12 +13,11 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.utility.Logger;
 
-public class Automation_rotAlign extends Command {
+public class Automation_Tune extends Command {
     
-    // private double distanceToMove;
-    private int errorSum = 0;
+    private int errorSum;
     
-    public Automation_rotAlign() {
+    public Automation_Tune() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.swerve);
     }
@@ -26,20 +25,17 @@ public class Automation_rotAlign extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        
         Robot.logger.write(Logger.LogEvent.EVENT, "Initializing", this);
         setTimeout(5);
-
-        Robot.swerve.getBR().setDriveEncoderPosition(0);
-        double angle = Robot.vision.getAngle();
-        double distanceToMove = (angle * RobotMap.driveTicksFor360Deg) / 360;
-        //double distanceToMove = (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation * angle) / (360 * RobotMap.wheelDiameterCM);
-        SmartDashboard.putNumber("deg start", angle);
-
         
-        // double newAngle = (distanceToMove / RobotMap.driveTicksFor360Deg) * 360;
+        Robot.swerve.getBR().setDriveEncoderPosition(0);
+        double angle = Robot.prefs.getDouble("A", 0.0);
+        double distanceToMove = (angle * RobotMap.driveTicksFor360Deg) / 360;
+        
         Robot.logger.write(Logger.LogEvent.INFO, String.format("Angle is %.2f", angle), this);
         Robot.logger.write(Logger.LogEvent.INFO, String.format("Distance to move is %.2f", distanceToMove), this);
-        // Robot.logger.write(Logger.LogEvent.INFO, String.format("newAngle is %.2f", newAngle), this);
+        
         Robot.swerve.setDrivePosition(distanceToMove);
     }
     
@@ -62,14 +58,9 @@ public class Automation_rotAlign extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        double err = Robot.swerve.getBR().getDriveError();
-        
         double degMoved = (Robot.swerve.getBR().getDrivePosition() * 360) / RobotMap.driveTicksFor360Deg;
+
         SmartDashboard.putNumber("deg moved", degMoved);
-        // System.out.println("[LOG] final drive error as angle " + (360 * err * RobotMap.wheelDiameter) / (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation));
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error %.2f", err), this);
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error as angle is %.2f", ((err * 360) / RobotMap.driveTicksFor360Deg)), this);
-        Robot.logger.write(Logger.LogEvent.EVENT, "Finished execution", this);
     }
     
     // Called when another command which requires one or more of the same

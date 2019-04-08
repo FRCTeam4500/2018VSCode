@@ -8,6 +8,7 @@
 package frc.robot.automation;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.utility.Logger;
@@ -26,12 +27,23 @@ public class Automation_xAlign extends Command {
     protected void initialize() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Initialized", this);
         setTimeout(3);
+
+        
+        Robot.swerve.getBR().setDriveEncoderPosition(0);
         
         double[] data = Robot.vision.getCenter();
-        double X = (data[0] - RobotMap.imgW)*RobotMap.cameraHeight / RobotMap.focalLength;
+        double XCM = ((data[0] - (RobotMap.imgW/2))*RobotMap.cameraHeight) / RobotMap.focalLength;
+        double XTick = (XCM / (Math.PI * RobotMap.wheelDiameterCM)) * RobotMap.driveTicksPerRotation;
+        
+        // Robot.swerve.setDrivePosition(XTick);
+        
+        SmartDashboard.putNumber("X Data", data[0]);
+        SmartDashboard.putNumber("X Start", XCM);
+        SmartDashboard.putNumber("XTick", XTick);
+        SmartDashboard.putNumber("FL", RobotMap.focalLength);
         
         Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f Y: %.3f", data[0], data[1]), this);
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f", X), this);
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f", XCM), this);
     }
     
     // Called repeatedly when this Command is scheduled to run
@@ -52,6 +64,10 @@ public class Automation_xAlign extends Command {
     @Override
     protected void end() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Finished execution", this);
+        double currentPos = Robot.swerve.getBR().getDrivePosition();
+        double XCM = (RobotMap.wheelDiameterCM * Math.PI * currentPos) / (RobotMap.driveTicksPerRotation);
+        SmartDashboard.putNumber("X End", XCM);
+
     }
     
     // Called when another command which requires one or more of the same
