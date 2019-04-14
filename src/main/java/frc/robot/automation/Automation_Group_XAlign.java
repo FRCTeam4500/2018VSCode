@@ -8,6 +8,7 @@
 package frc.robot.automation;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 import frc.robot.commands.Swerve_ToggleDefault;
 
@@ -18,7 +19,9 @@ public class Automation_Group_XAlign extends CommandGroup {
   public Automation_Group_XAlign() {
     requires(Robot.swerve);
     addSequential(new Swerve_ToggleDefault());
+    addSequential(new Automation_SetPIDFVA());
     addSequential(new Automation_SetWheelAngle(1, 0, 0));
+    addSequential(new TimedCommand(0.1));
     addSequential(new Automation_xAlign());
     addSequential(new Swerve_ToggleDefault());
   }

@@ -65,7 +65,15 @@ public class Robot extends TimedRobot {
         // SmartDashboard.putData("Automation_rotAlign", new Automation_rotAlign());
         // SmartDashboard.putData("Automation_xAlign", new Automation_xAlign());
         // SmartDashboard.putData("Testing_Group", new Testing_Group());
-        prefs.putDouble("A", 0.0);
+        prefs.putDouble("P", 0.38);
+        prefs.putDouble("I", 0.0);
+        prefs.putDouble("D", 3.8);
+        prefs.putDouble("F", 0.127875);
+        prefs.putDouble("V", 4000);
+        prefs.putDouble("A", 4000);
+        prefs.putDouble("XYSpeed", 1.0);
+        prefs.putDouble("ZSpeed", 1.0);
+        prefs.putDouble("Angle", 0.0);
         // prefs.putDouble("Angle X", 0.0);
         // prefs.putDouble("Angle Y", 0.0);
         // prefs.putDouble("Angle Z", 0.0);

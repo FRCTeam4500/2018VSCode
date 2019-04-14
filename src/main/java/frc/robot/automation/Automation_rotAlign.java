@@ -7,6 +7,7 @@
 
 package frc.robot.automation;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -27,13 +28,15 @@ public class Automation_rotAlign extends Command {
     @Override
     protected void initialize() {
         Robot.logger.write(Logger.LogEvent.EVENT, "Initializing", this);
-        setTimeout(5);
+        setTimeout(3);
 
         Robot.swerve.getBR().setDriveEncoderPosition(0);
-        double angle = Robot.vision.getAngle();
+        // double angle = Robot.vision.getAngle();
+        double angle = Robot.prefs.getDouble("Angle", 0.0);
         double distanceToMove = (angle * RobotMap.driveTicksFor360Deg) / 360;
         //double distanceToMove = (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation * angle) / (360 * RobotMap.wheelDiameterCM);
-        SmartDashboard.putNumber("deg start", angle);
+        SmartDashboard.putNumber("deg Start", angle);
+        SmartDashboard.putNumber("deg Tick", distanceToMove);
 
         
         // double newAngle = (distanceToMove / RobotMap.driveTicksFor360Deg) * 360;
@@ -53,10 +56,11 @@ public class Automation_rotAlign extends Command {
     protected boolean isFinished() {
         int err = Robot.swerve.getBR().getDriveError();
         errorSum += err;
-        boolean conditionA = errorSum > 0 && Math.abs(err) < 5;
+        boolean conditionA = errorSum > 5 && Math.abs(err) < 5;
         boolean conditionB = this.isTimedOut();
+        Robot.logger.write(Logger.LogEvent.INFO, String.format("AngleError is %d ErrorSum is %d", err, errorSum), this);
         Robot.logger.write(Logger.LogEvent.INFO, String.format("AngleError condition is %b, timedOut condition is %b", conditionA, conditionB), this);
-        return conditionA || conditionB;
+        return conditionB;
     }
     
     // Called once after isFinished returns true
@@ -65,7 +69,8 @@ public class Automation_rotAlign extends Command {
         double err = Robot.swerve.getBR().getDriveError();
         
         double degMoved = (Robot.swerve.getBR().getDrivePosition() * 360) / RobotMap.driveTicksFor360Deg;
-        SmartDashboard.putNumber("deg moved", degMoved);
+        SmartDashboard.putNumber("deg Err", Robot.swerve.getBR().getDriveError());
+        SmartDashboard.putNumber("deg End", degMoved);
         // System.out.println("[LOG] final drive error as angle " + (360 * err * RobotMap.wheelDiameter) / (RobotMap.wheelToRobotCenterDiameterCM * RobotMap.driveTicksPerRotation));
         Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error %.2f", err), this);
         Robot.logger.write(Logger.LogEvent.INFO, String.format("final drive error as angle is %.2f", ((err * 360) / RobotMap.driveTicksFor360Deg)), this);

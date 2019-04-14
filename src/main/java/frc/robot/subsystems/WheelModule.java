@@ -64,14 +64,14 @@ public class WheelModule extends Subsystem {
         angleMotor.setInverted(inverted);
         
 
-        speedMotor.configPeakOutputForward(1);
-        speedMotor.configPeakOutputReverse(-1);
-        speedMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
-        speedMotor.config_kP(0, 0.7, RobotMap.TIMEOUT); // 0.96
-        speedMotor.config_kI(0, 0, RobotMap.TIMEOUT);
-        speedMotor.config_kD(0, 30, RobotMap.TIMEOUT); // 30
+        //speedMotor.configPeakOutputForward(1);
+        //speedMotor.configPeakOutputReverse(-1);
+        //speedMotor.configAllowableClosedloopError(0, 0, RobotMap.TIMEOUT);
+        //speedMotor.config_kP(0, 0.7, RobotMap.TIMEOUT); // 0.96
+        // speedMotor.config_kI(0, 0, RobotMap.TIMEOUT);
+        // speedMotor.config_kD(0, 30, RobotMap.TIMEOUT); // 30
         // speedMotor.configClosedloopRamp(2, RobotMap.TIMEOUT);
-        speedMotor.configClosedLoopPeakOutput(0, 12.0/12.0, RobotMap.TIMEOUT);
+        // speedMotor.configClosedLoopPeakOutput(0, 12.0/12.0, RobotMap.TIMEOUT);
         
         // speedMotor.config_kF(0, 0.094, RobotMap.TIMEOUT);
         // speedMotor.config_IntegralZone(0, 0, RobotMap.TIMEOUT);

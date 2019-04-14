@@ -14,7 +14,7 @@ import frc.robot.RobotMap;
 import frc.robot.utility.Logger;
 
 public class Automation_xAlign extends Command {
-
+                            
     private int errorSum = 0;
 
     public Automation_xAlign() {
@@ -25,25 +25,25 @@ public class Automation_xAlign extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.logger.write(Logger.LogEvent.EVENT, "Initialized", this);
+        // Robot.logger.write(Logger.LogEvent.EVENT, "Initialized", this);
         setTimeout(3);
-
-        
+ 
         Robot.swerve.getBR().setDriveEncoderPosition(0);
         
         double[] data = Robot.vision.getCenter();
         double XCM = ((data[0] - (RobotMap.imgW/2))*RobotMap.cameraHeight) / RobotMap.focalLength;
         double XTick = (XCM / (Math.PI * RobotMap.wheelDiameterCM)) * RobotMap.driveTicksPerRotation;
         
-        // Robot.swerve.setDrivePosition(XTick);
+        Robot.swerve.setDrivePosition(-XTick);
         
         SmartDashboard.putNumber("X Data", data[0]);
         SmartDashboard.putNumber("X Start", XCM);
-        SmartDashboard.putNumber("XTick", XTick);
+        SmartDashboard.putNumber("X Tick", XTick);
+        // SmartDashboard.putNumber("XTick", XTick);
         SmartDashboard.putNumber("FL", RobotMap.focalLength);
         
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f Y: %.3f", data[0], data[1]), this);
-        Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f", XCM), this);
+        // Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f Y: %.3f", data[0], data[1]), this);
+        // Robot.logger.write(Logger.LogEvent.INFO, String.format("X: %.3f", XCM), this);
     }
     
     // Called repeatedly when this Command is scheduled to run
@@ -67,6 +67,7 @@ public class Automation_xAlign extends Command {
         double currentPos = Robot.swerve.getBR().getDrivePosition();
         double XCM = (RobotMap.wheelDiameterCM * Math.PI * currentPos) / (RobotMap.driveTicksPerRotation);
         SmartDashboard.putNumber("X End", XCM);
+        SmartDashboard.putNumber("X Err", Robot.swerve.getBR().getDriveError());
 
     }
     
