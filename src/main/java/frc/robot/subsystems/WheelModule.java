@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.utility.automation.WheelModuleResolver;
 
 /**
  * Add your docs here.
@@ -20,6 +21,8 @@ import frc.robot.RobotMap;
 public class WheelModule extends Subsystem {
     private TalonSRX angleMotor;
     private TalonSRX speedMotor;
+
+    private WheelModuleResolver resolver;
 
     private String id;
     private double lastAngle = 0;
@@ -39,6 +42,8 @@ public class WheelModule extends Subsystem {
 
         angleMotor = new TalonSRX(anglePort);
         speedMotor = new TalonSRX(speedPort);
+
+        resolver = new WheelModuleResolver(speedMotor, angleMotor);
 
         
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, RobotMap.TIMEOUT);
@@ -137,16 +142,14 @@ public class WheelModule extends Subsystem {
     public void drive(double speed, double angle) {
         angle = adjustAngle(angle);
 
-        // if (angle > lastAngle && angle - lastAngle > 90) {
-        //     System.out.println("------------- HERE -------------");
-        //     angle = angle - 180;
-        //     speed = -speed;
-        // } else if (angle < lastAngle && lastAngle - angle > 90) {
-        //     System.out.println("------------- HERE -------------");
-        //     angle = angle + 180;
-        //     speed = -speed;
-        // }
-        // lastAngle = angle;
+        if (angle > lastAngle && angle - lastAngle > 90) {
+            angle = angle - 180;
+            speed = -speed;
+        } else if (angle < lastAngle && lastAngle - angle > 90) {
+            angle = angle + 180;
+            speed = -speed;
+        }
+        lastAngle = angle;
 
         angle *= RobotMap.COUNTPERDEG;
 
@@ -219,5 +222,9 @@ public class WheelModule extends Subsystem {
 
     public TalonSRX getSpeedMotor() {
         return speedMotor;
+    }
+
+    public WheelModuleResolver getResolver() {
+        return resolver;
     }
 }

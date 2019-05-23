@@ -7,12 +7,14 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.utility.automation.WheelModuleResolver;
 
 /**
 * Add your docs here.
@@ -22,7 +24,7 @@ public class Swerve extends Subsystem {
     // here. Call these from Commands.
     
     private WheelModule fl, fr, bl, br;
-    
+    private ArrayList<WheelModule> modules = new ArrayList<>();    
     private AHRS gyro;
     
     /**
@@ -37,7 +39,12 @@ public class Swerve extends Subsystem {
         this.fr = fr;
         this.br = br;
         this.bl = bl;
-        
+
+        modules.add(fl);
+        modules.add(fr);
+        modules.add(br);
+        modules.add(bl);
+
         gyro = new AHRS(SPI.Port.kMXP);
     }
     
@@ -45,6 +52,10 @@ public class Swerve extends Subsystem {
     @Override
     public void initDefaultCommand() {
         // setDefaultCommand(new Swerve_Drive());
+    }
+
+    public ArrayList<WheelModule> getModules() {
+        return modules;
     }
     
     /*
