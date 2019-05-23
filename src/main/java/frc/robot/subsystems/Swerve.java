@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2018 FIRST. All Rights Reserved. */
+/* Open Source Software - may be modified and shared by FRC teams. The code */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project. */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
@@ -25,21 +25,22 @@ public class Swerve extends Subsystem {
 
     /**
      * Constructor that takes each of the four modules that make up swerve drive
+     * 
      * @param fl front left module
      * @param fr front right module
      * @param bl back left module
      * @param br back right module
      */
     public Swerve(WheelModule fl, WheelModule fr, WheelModule bl, WheelModule br) {
-    	this.fl = fl;
-    	this.fr = fr;
-    	this.br = br;
+        this.fl = fl;
+        this.fr = fr;
+        this.br = br;
         this.bl = bl;
-    	
-    	gyro = new ADXRS450_Gyro();
+
+        gyro = new ADXRS450_Gyro();
     }
 
-    
+
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new Swerve_Drive());
@@ -62,9 +63,8 @@ public class Swerve extends Subsystem {
      */
 
     /**
-     * Calculates a vector (contains a magnitude (speed) and heading (angle)) for
-     * each of the four wheel modules. Then calls the drive method in the four
-     * modules to start the desired movement
+     * Calculates a vector (contains a magnitude (speed) and heading (angle)) for each of the four
+     * wheel modules. Then calls the drive method in the four modules to start the desired movement
      * 
      * @param x coordinate of the joystick
      * @param y coordinate of the joystick
@@ -123,6 +123,13 @@ public class Swerve extends Subsystem {
         fl.drive(flSpeed, flAngle);
     }
 
+    public void drive(double speed, double angle) {
+        br.drive(speed, angle);
+        bl.drive(speed, angle);
+        fr.drive(speed, angle);
+        fl.drive(speed, angle);
+    }
+
     /**
      * Returns an array of each module's angle error
      * 
@@ -133,7 +140,7 @@ public class Swerve extends Subsystem {
         int frError = fr.getAngleError();
         int blError = bl.getAngleError();
         int brError = br.getAngleError();
-        return new int[] { flError, frError, blError, brError };
+        return new int[] {flError, frError, blError, brError};
     }
 
     /**
@@ -146,10 +153,10 @@ public class Swerve extends Subsystem {
         int frPosition = fr.getAnglePosition();
         int blPosition = bl.getAnglePosition();
         int brPosition = br.getAnglePosition();
-        return new int[] { flPosition, frPosition, blPosition, brPosition };
+        return new int[] {flPosition, frPosition, blPosition, brPosition};
     }
 
-     /**
+    /**
      * Returns an array of each module's drive position
      * 
      * @return int array in the form {fl, fr, bl, br}
@@ -160,10 +167,10 @@ public class Swerve extends Subsystem {
         int blQ = bl.getDrivePosition();
         int brQ = br.getDrivePosition();
 
-        return new int[] { flQ, frQ, blQ, brQ };
+        return new int[] {flQ, frQ, blQ, brQ};
     }
 
-     /**
+    /**
      * Returns an array of each module's drive voltage
      * 
      * @return double array in the form {fl, fr, bl, br}
@@ -173,7 +180,7 @@ public class Swerve extends Subsystem {
         double frV = fr.getVoltage();
         double blV = bl.getVoltage();
         double brV = br.getVoltage();
-        return new double[] { flV, frV, blV, brV };
+        return new double[] {flV, frV, blV, brV};
     }
 
     /*
